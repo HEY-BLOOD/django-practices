@@ -2,13 +2,17 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Author, Genre, Book, BookInstance
+from .models import Author, Genre, Book, BookInstance, Language
 """Minimal registration of Models.
 admin.site.register(Book)
 admin.site.register(Author)
 admin.site.register(BookInstance)
 admin.site.register(Genre)
+admin.site.register(Language)
 """
+
+admin.site.register(Genre)
+admin.site.register(Language)
 
 
 # 内联类，TabularInline (水平布局 ) or StackedInline (垂直布局 ，就像默认布局)
@@ -74,9 +78,3 @@ class BookInstanceAdmin(admin.ModelAdmin):
             'fields': ('status', 'due_back')
         }),
     )
-
-
-# Register the Admin classes for Genre using the decorator
-@admin.register(Genre)
-class GenreAdmin(admin.ModelAdmin):
-    pass
