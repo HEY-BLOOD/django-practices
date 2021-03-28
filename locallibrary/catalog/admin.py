@@ -13,6 +13,9 @@ from .models import Author, Genre, Book, BookInstance
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ('last_name', 'first_name', 'date_of_birth',
                     'date_of_death')
+    # 字段默认情况下垂直显示，但如果进一步将它们分组在元组中（如上述“日期”字段中所示），则会水平显示。
+    # 注意：还可以使用exclude属性来声明要从表单中排除的属性列表（将显示模型中的所有其他属性）。
+    fields = ['first_name', 'last_name', ('date_of_birth', 'date_of_death')]
 
 
 # Register the Admin classes for Book using the decorator
