@@ -8,6 +8,13 @@ from .models import Author, Genre, Book, BookInstance
 # admin.site.register(BookInstance)
 
 
+# 内联类，TabularInline (水平布局 ) or StackedInline (垂直布局 ，就像默认布局)
+class BooksInstanceInline(admin.TabularInline):
+    model = BookInstance
+    # 只显示“Add another Book instance”链接，而不显示备用的实例编辑表单
+    extra = 0
+
+
 # Register the Admin classes for Author using the decorator
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
@@ -25,6 +32,9 @@ class BookAdmin(admin.ModelAdmin):
     # （Django可以防止这种情况，因为在这样做时会有大量的数据库访问“成本”）。
     # 相反，我们将在 Book 模型中定义一个 display_genre 函数来获取信息作为一个字符串
     list_display = ('title', 'author', 'display_genre')
+
+    # 通过声明 inlines，将内容中的 BookInstance信息添加到我们的 Book详细信息中
+    inlines = [BooksInstanceInline]
 
 
 # Register the Admin classes for BookInstance using the decorator
