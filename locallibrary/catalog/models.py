@@ -20,6 +20,19 @@ class Genre(models.Model):
         return self.name
 
 
+class Language(models.Model):
+    """Model representing a Language (e.g. English, French, Japanese, etc.)"""
+    name = models.CharField(
+        max_length=200,
+        help_text=
+        "Enter the book's natural language (e.g. English, French, Japanese etc.)"
+    )
+
+    def __str__(self):
+        """String for representing the Model object (in Admin site etc.)"""
+        return self.name
+
+
 class Book(models.Model):
     """
     Model representing a book (but not a specific copy of a book).
@@ -38,21 +51,11 @@ class Book(models.Model):
     )
     genre = models.ManyToManyField(Genre,
                                    help_text="Select a genre for this book")
-
-    # ManyToManyField used because genre can contain many books. Books can cover many genres.
+    # ManyToManyField used because a genre can contain many books and a Book can cover many genres.
     # Genre class has already been defined so we can specify the object above.
-
-    def __str__(self):
-        """
-        String for representing the Model object.
-        """
-        return self.title
-
-    def get_absolute_url(self):
-        """
-        Returns the url to access a particular book instance.
-        """
-        return reverse('book-detail', args=[str(self.id)])
+    language = models.ForeignKey(Language,
+                                 on_delete=models.SET_NULL,
+                                 null=True)
 
     def display_genre(self):
         """
@@ -61,6 +64,18 @@ class Book(models.Model):
         return ', '.join([genre.name for genre in self.genre.all()[:3]])
 
     display_genre.short_description = 'Genre'
+
+    def get_absolute_url(self):
+        """
+        Returns the url to access a particular book instance.
+        """
+        return reverse('book-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """
+        String for representing the Model object.
+        """
+        return self.title
 
 
 class BookInstance(models.Model):
