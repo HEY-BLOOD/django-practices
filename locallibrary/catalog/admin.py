@@ -32,6 +32,16 @@ class BookAdmin(admin.ModelAdmin):
 class BookInstanceAdmin(admin.ModelAdmin):
     list_filter = ('status', 'due_back')
 
+    # 使用 fieldsets 属性添加“部分”以在详细信息表单中对相关的模型信息进行分组。
+    fieldsets = (
+        (None, {
+            'fields': ('book', 'imprint', 'id')
+        }),
+        ('Availability', {
+            'fields': ('status', 'due_back')
+        }),
+    )
+
 
 # Register the Admin classes for Genre using the decorator
 @admin.register(Genre)
