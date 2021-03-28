@@ -11,13 +11,17 @@ from .models import Author, Genre, Book, BookInstance
 # Register the Admin classes for Author using the decorator
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('last_name', 'first_name', 'date_of_birth',
+                    'date_of_death')
 
 
 # Register the Admin classes for Book using the decorator
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    pass
+    # 我们不能直接指定 list_display 中的 genre 字段， 因为它是一个ManyToManyField
+    # （Django可以防止这种情况，因为在这样做时会有大量的数据库访问“成本”）。
+    # 相反，我们将在 Book 模型中定义一个 display_genre 函数来获取信息作为一个字符串
+    list_display = ('title', 'author', 'display_genre')
 
 
 # Register the Admin classes for BookInstance using the decorator
