@@ -80,3 +80,10 @@ class BookListView(generic.ListView):
 class BookDetailView(generic.DetailView):
     """View class for book detail page"""
     model = Book
+
+
+class AuthorListView(generic.ListView):
+    """View class for author list page"""
+    model = Author
+    template_name = "TEMPLATE_NAME"
+    paginate_by = 10
