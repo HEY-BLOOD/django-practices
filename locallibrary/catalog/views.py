@@ -53,8 +53,11 @@ class BookListView(generic.ListView):
         """
         Change the list of records returned. This is more flexible than just setting the queryset attribute.
         """
-        # Get 5 books containing the title war
-        return Book.objects.filter(title__icontains='war')[:5]
+        queryset = super(BookListView, self).get_queryset()
+        queryset = queryset  # TODO
+        # e.g. Get 5 books containing the title war
+        # queryset = Book.objects.filter(title__icontains='war')[:5]
+        return queryset
 
     def get_context_data(self, **kwargs):
         """
