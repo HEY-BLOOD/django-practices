@@ -16,4 +16,6 @@
 {% else %}
 <p>There are no books in the library.</p>
 {% endif %}
+
+You have visited this page {{ book_list_num_visits }} time{% if book_list_num_visits > 1 %}s{% endif %}.
 {% endblock %}
