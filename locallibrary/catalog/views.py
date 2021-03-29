@@ -86,3 +86,8 @@ class AuthorListView(generic.ListView):
     """View class for author list page"""
     model = Author
     paginate_by = 10
+
+
+class AuthorDetailView(generic.DetailView):
+    """View class for author detail page"""
+    model = Author
