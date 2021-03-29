@@ -5,6 +5,8 @@ from .models import Book, Author, BookInstance, Genre
 
 from django.views import generic
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 def index(request):
     """View function for home page of site."""
@@ -73,7 +75,8 @@ class BookListView(generic.ListView):
         context = super(BookListView, self).get_context_data(**kwargs)
         # Create any data and add it to the context
         # Number of visits to this view, as counted in the session variable.
-        book_list_num_visits = self.request.session.get('book_list_num_visits', 1)
+        book_list_num_visits = self.request.session.get(
+            'book_list_num_visits', 1)
         self.request.session['book_list_num_visits'] = book_list_num_visits + 1
         context['book_list_num_visits'] = book_list_num_visits
         # return the new (updated) context.
@@ -94,3 +97,16 @@ class AuthorListView(generic.ListView):
 class AuthorDetailView(generic.DetailView):
     """View class for author detail page"""
     model = Author
+
+
+class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
+    """
+    Generic class-based view listing books on loan to current user.
+    """
+    model = BookInstance
+    template_name = 'catalog/bookinstance_list_borrowed_user.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(borrower=self.request.user).filter(
+            status__exact='o').order_by('due_back')
