@@ -35,6 +35,7 @@ def index(request):
 
 
 class BookListView(generic.ListView):
+    """View Class for the book list page"""
     # The generic view will query the database to get all records for the specified model (Book)
     model = Book
 
@@ -66,3 +67,8 @@ class BookListView(generic.ListView):
         context['some_data'] = 'This is just some data'
         # return the new (updated) context.
         return context
+
+
+class BookDetailView(generic.DetailView):
+    """View class for book detail page"""
+    model = Book
