@@ -46,7 +46,7 @@ class BookListView(generic.ListView):
 
     # Specify your own template name/location, if the specify tempplate file isn't existed,
     # that will use default templates_directory/application_directory/the_model_name_list.html
-    template_name = 'catalog/template_name_list.html'
+    template_name = 'catalog/template_name_list.html'  # TODO it's not existed
 
     def get_queryset(self):
         """
