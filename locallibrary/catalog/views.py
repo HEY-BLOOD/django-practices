@@ -47,7 +47,12 @@ class BookListView(generic.ListView):
 
     # Specify your own template name/location, if the specify tempplate file isn't existed,
     # that will use default templates_directory/application_directory/the_model_name_list.html
-    template_name = 'catalog/template_name_list.html'  # TODO it's not existed
+    template_name = 'catalog/template_name_list.html'  # FIXME it's not existed
+
+    # The page_obj is a Paginator object that will exist if pagination is being used on the current page.
+    # Add pagination to your list views, reducing the number of items displayed on each page.
+    # The different pages are accessed using GET parameters, e.g. /catalog/books/?page=2.
+    paginate_by = 10
 
     def get_queryset(self):
         """
