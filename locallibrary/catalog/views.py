@@ -3,6 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 from .models import Book, Author, BookInstance, Genre
 
+from django.views import generic
+
 
 def index(request):
     """View function for home page of site."""
@@ -30,3 +32,18 @@ def index(request):
             'num_visits': num_visits
         },
     )
+
+
+class BookListView(generic.ListView):
+    # The generic view will query the database to get all records for the specified model (Book)
+    model = Book
+
+    # your own name for the list as a template variable, default 'objects_list' or 'the_model_name_list'
+    context_object_name = 'book_list'
+
+    # Get 5 books containing the title war, default model-name.objects.all()
+    queryset = Book.objects.filter(title__icontains='war')[:5]
+
+    # Specify your own template name/location, if the specify tempplate file isn't existed,
+    # that will use default templates_directory/application_directory/the_model_name_list.html
+    template_name = 'catalog/template_name_list.html'
