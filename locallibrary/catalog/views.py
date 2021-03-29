@@ -42,8 +42,27 @@ class BookListView(generic.ListView):
     context_object_name = 'book_list'
 
     # Get 5 books containing the title war, default model-name.objects.all()
-    queryset = Book.objects.filter(title__icontains='war')[:5]
+    # queryset = Book.objects.filter(title__icontains='war')[:5]
 
     # Specify your own template name/location, if the specify tempplate file isn't existed,
     # that will use default templates_directory/application_directory/the_model_name_list.html
     template_name = 'catalog/template_name_list.html'
+
+    def get_queryset(self):
+        """
+        Change the list of records returned. This is more flexible than just setting the queryset attribute.
+        """
+        # Get 5 books containing the title war
+        return Book.objects.filter(title__icontains='war')[:5]
+
+    def get_context_data(self, **kwargs):
+        """
+        Pass additional context variables to the template (e.g. the list of books is passed by default). 
+        When doing this it is important to follow the pattern used below.
+        """
+        # Call the base implementation first to get the context
+        context = super(BookListView, self).get_context_data(**kwargs)
+        # Create any data and add it to the context
+        context['some_data'] = 'This is just some data'
+        # return the new (updated) context.
+        return context
