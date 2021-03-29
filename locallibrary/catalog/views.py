@@ -72,7 +72,10 @@ class BookListView(generic.ListView):
         # Call the base implementation first to get the context
         context = super(BookListView, self).get_context_data(**kwargs)
         # Create any data and add it to the context
-        context['some_data'] = 'This is just some data'
+        # Number of visits to this view, as counted in the session variable.
+        book_list_num_visits = self.request.session.get('book_list_num_visits', 1)
+        self.request.session['book_list_num_visits'] = book_list_num_visits + 1
+        context['book_list_num_visits'] = book_list_num_visits
         # return the new (updated) context.
         return context
 
